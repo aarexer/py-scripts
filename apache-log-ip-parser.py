@@ -1,5 +1,7 @@
+#!/Library/Frameworks/Python.framework/Versions/3.5/bin/python3
 import sys, os, re, csv, logging
 from collections import Counter
+from operator import itemgetter
 
 
 def get_ips_from_file(filename):
@@ -15,22 +17,22 @@ def counter(ip_list):
     return Counter(ip_list)
 
 
-def write_to_csv(count_of_ips):
+def write_to_csv(pairs_of_ip_freq):
     with open('result.csv', 'w') as file:
         writer = csv.writer(file)
         header = ['Ip', 'Frequency']
         writer.writerow(header)
 
-        for item in count_of_ips:
-            writer.writerow((item, count_of_ips[item]))
+        for pair in pairs_of_ip_freq:
+            writer.writerow((pair[0], pair[1]))
 
 
 if __name__ == '__main__':
     if len(sys.argv) == 2:
         filename = sys.argv[1]
     else:
-        logging.warning("Empty command line arguments, filename by default")
         filename = 'log.txt'
+        logging.warning("Empty command line arguments, filename by default {}".format(filename))
 
     if not os.path.exists(filename):
         logging.error('File {} doesnt exist'.format(filename))
@@ -40,4 +42,5 @@ if __name__ == '__main__':
         if len(ips) == 0:
             logging.info('No ip addresses in file')
         else:
-            write_to_csv(count_of_ips=counter(ips))
+            lst_of_ip_and_frequency_pairs = sorted(counter(ips).items(), key=itemgetter(1), reverse=True)
+            write_to_csv(pairs_of_ip_freq=lst_of_ip_and_frequency_pairs)
