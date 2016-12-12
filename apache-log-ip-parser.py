@@ -1,5 +1,9 @@
 #!/Library/Frameworks/Python.framework/Versions/3.5/bin/python3
-import sys, os, re, csv, logging
+import sys
+import os
+import re
+import csv
+import logging
 from collections import Counter
 from operator import itemgetter
 
@@ -32,7 +36,7 @@ if __name__ == '__main__':
         filename = sys.argv[1]
     else:
         filename = 'log.txt'
-        logging.warning("Empty command line arguments, filename by default {}".format(filename))
+        logging.warning('Empty command line arguments, filename by default {}'.format(filename))
 
     if not os.path.exists(filename):
         logging.error('File {} doesnt exist'.format(filename))
@@ -42,5 +46,6 @@ if __name__ == '__main__':
         if len(ips) == 0:
             logging.info('No ip addresses in file')
         else:
-            lst_of_ip_and_frequency_pairs = sorted(counter(ips).items(), key=itemgetter(1), reverse=True)
-            write_to_csv(pairs_of_ip_freq=lst_of_ip_and_frequency_pairs)
+            ip_pairs = counter(ips).items()
+            ip_freq = sorted(ip_pairs, key=itemgetter(1), reverse=True)
+            write_to_csv(pairs_of_ip_freq=ip_freq)
