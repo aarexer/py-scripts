@@ -1,4 +1,3 @@
-#!/Library/Frameworks/Python.framework/Versions/3.5/bin/python3
 import sys
 import os
 import re
