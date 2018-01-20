@@ -96,7 +96,7 @@ root = Namespace('global')
 
 req_num = input()
 
-for num in range(0, int(req_num)):
+for _ in range(0, int(req_num)):
     request = input()
     (command, name, value) = request.split(' ')
 
